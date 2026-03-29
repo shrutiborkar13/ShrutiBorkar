@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shruti Borkar — Data Engineer & AI Builder</title>
+  <meta name="description" content="Shruti Borkar — Data Engineer & AI Builder. MS Business Analytics, UMass Amherst. Databricks, LangChain, RAG, Agentic AI, Power BI."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --bg:#06090f; --bg2:#0b1018; --surface:#111922; --surface2:#171f2e;
+      --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+      --accent:#38d9f5; --accent2:#5ee7b0; --accent3:#b48aff; --accent4:#f97c6e; --accent5:#fbbf24;
+      --text:#e4eaf5; --text2:#a8b2c4; --text3:#6b7a96;
+      --fd:'Syne',sans-serif; --fb:'DM Sans',sans-serif; --fm:'DM Mono',monospace;
+      --r:12px; --rl:20px; --e:cubic-bezier(0.4,0,0.2,1);
+    }
+    html { scroll-behavior:smooth; overflow-x:hidden; }
+    body { background:var(--bg); color:var(--text); font-family:var(--fb); font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+    ::selection { background:rgba(56,217,245,0.18); color:var(--accent); }
+    ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-track{background:var(--bg)} ::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+
+    .grid-bg { position:fixed; inset:0; background-image:linear-gradient(rgba(56,217,245,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(56,217,245,0.022) 1px,transparent 1px); background-size:64px 64px; pointer-events:none; z-index:0; }
+    .cursor-glow { position:fixed; width:380px; height:380px; border-radius:50%; pointer-events:none; z-index:0; background:radial-gradient(circle,rgba(56,217,245,0.05) 0%,transparent 70%); transform:translate(-50%,-50%); mix-blend-mode:screen; }
+
+    /* ── NAV ── */
+    nav { position:fixed; top:0; left:0; right:0; z-index:1000; padding:0 clamp(1.5rem,5vw,4rem); height:64px; display:flex; align-items:center; justify-content:space-between; background:rgba(6,9,15,0.88); backdrop-filter:blur(24px); border-bottom:1px solid var(--border); }
+    .nav-logo { font-family:var(--fd); font-size:1.05rem; font-weight:700; color:var(--text); text-decoration:none; letter-spacing:-0.02em; }
+    .nav-logo span{color:var(--accent)}
+    .nav-links { display:flex; align-items:center; gap:1.6rem; list-style:none; }
+    .nav-links a { font-family:var(--fm); font-size:0.73rem; color:var(--text2); text-decoration:none; letter-spacing:0.05em; transition:color .2s; position:relative; }
+    .nav-links a::after { content:''; position:absolute; bottom:-3px; left:0; right:0; height:1px; background:var(--accent); transform:scaleX(0); transform-origin:left; transition:transform .3s var(--e); }
+    .nav-links a:hover{color:var(--accent)} .nav-links a:hover::after{transform:scaleX(1)}
+    .nav-cta { color:var(--accent)!important; border:1px solid rgba(56,217,245,0.3)!important; padding:.35rem .9rem; border-radius:6px; transition:all .2s!important; }
+    .nav-cta:hover{background:rgba(56,217,245,0.08)!important} .nav-cta::after{display:none!important}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px}
+    .hamburger span{display:block;width:24px;height:2px;background:var(--text);border-radius:2px}
+    .mobile-menu{display:none;position:fixed;inset:64px 0 0 0;background:rgba(6,9,15,0.97);backdrop-filter:blur(24px);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{font-family:var(--fd);font-size:1.5rem;font-weight:600;color:var(--text);text-decoration:none;transition:color .2s}
+    .mobile-menu a:hover{color:var(--accent)}
+
+    /* ── SECTION BASE ── */
+    section{position:relative;z-index:1;padding:clamp(4rem,10vw,7rem) clamp(1.5rem,8vw,10rem);max-width:1200px;margin:0 auto}
+    .sec-label{font-family:var(--fm);font-size:0.69rem;letter-spacing:0.15em;color:var(--accent);text-transform:uppercase;margin-bottom:.6rem;display:flex;align-items:center;gap:.75rem}
+    .sec-label::after{content:'';flex:1;max-width:50px;height:1px;background:var(--accent);opacity:.4}
+    .sec-title{font-family:var(--fd);font-size:clamp(1.9rem,4vw,2.7rem);font-weight:700;line-height:1.15;letter-spacing:-0.03em;color:var(--text);margin-bottom:3.5rem}
+
+    /* ── HERO ── */
+    #hero{min-height:100vh;display:flex;align-items:center;padding-top:5rem;position:relative;z-index:1}
+    .hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(56,217,245,0.07) 0%,transparent 70%);top:5%;left:-15%;pointer-events:none;animation:flt 9s ease-in-out infinite}
+    .hero-glow2{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(180,138,255,0.05) 0%,transparent 70%);bottom:10%;right:-5%;pointer-events:none;animation:flt 12s ease-in-out infinite reverse}
+    @keyframes flt{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-28px) scale(1.04)}}
+    .hero-badge{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--fm);font-size:.72rem;color:var(--accent2);background:rgba(94,231,176,0.08);border:1px solid rgba(94,231,176,0.2);padding:.4rem .9rem;border-radius:100px;margin-bottom:1.5rem;letter-spacing:.04em;animation:fup .8s var(--e) both}
+    .hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent2);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+    .hero-name{font-family:var(--fd);font-size:clamp(3rem,8vw,6.2rem);font-weight:800;letter-spacing:-0.04em;line-height:.95;color:var(--text);margin-bottom:.9rem;animation:fup .8s var(--e) .1s both}
+    .hero-name .hi{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-title{font-family:var(--fd);font-size:clamp(.95rem,2.5vw,1.3rem);font-weight:500;color:var(--text2);margin-bottom:1.5rem;animation:fup .8s var(--e) .2s both}
+    .hero-desc{font-size:1rem;color:var(--text2);max-width:580px;line-height:1.82;margin-bottom:2.5rem;animation:fup .8s var(--e) .3s both}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:3rem;animation:fup .8s var(--e) .4s both}
+    .btn-p{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--fm);font-size:.79rem;letter-spacing:.04em;color:var(--bg);background:var(--accent);padding:.8rem 1.8rem;border-radius:8px;text-decoration:none;font-weight:500;transition:all .2s var(--e);border:none;cursor:pointer}
+    .btn-p:hover{background:#5ce4f7;transform:translateY(-2px);box-shadow:0 8px 30px rgba(56,217,245,.35)}
+    .btn-s{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--fm);font-size:.79rem;letter-spacing:.04em;color:var(--text);background:transparent;padding:.8rem 1.8rem;border-radius:8px;text-decoration:none;transition:all .2s var(--e);border:1px solid var(--border2)}
+    .btn-s:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);background:rgba(56,217,245,.04)}
+    .hero-stats{display:flex;gap:2.5rem;flex-wrap:wrap;animation:fup .8s var(--e) .5s both}
+    .s-num{font-family:var(--fd);font-size:1.8rem;font-weight:700;color:var(--text);letter-spacing:-0.03em;line-height:1}
+    .s-num span{color:var(--accent)}
+    .s-lbl{font-family:var(--fm);font-size:.67rem;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+
+    /* AI pills in hero */
+    .hero-ai-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem;animation:fup .8s var(--e) .35s both}
+    .ai-pill{font-family:var(--fm);font-size:.68rem;color:var(--accent3);background:rgba(180,138,255,0.08);border:1px solid rgba(180,138,255,0.2);padding:.25rem .7rem;border-radius:100px;letter-spacing:.03em}
+
+    .hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;font-family:var(--fm);font-size:.62rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;animation:fup 1s var(--e) 1s both}
+    .scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--accent),transparent);animation:sp 2s ease-in-out infinite}
+    @keyframes sp{0%,100%{opacity:1;transform:scaleY(1)}50%{opacity:.4;transform:scaleY(.6)}}
+    @keyframes fup{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── ABOUT ── */
+    #about{border-top:1px solid var(--border)}
+    .ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+    .ab-text p{color:var(--text2);font-size:1rem;line-height:1.85;margin-bottom:1.2rem}
+    .ab-text p strong{color:var(--text);font-weight:500}
+    .ab-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+    .tag{font-family:var(--fm);font-size:.69rem;color:var(--accent);background:rgba(56,217,245,.07);border:1px solid rgba(56,217,245,.15);padding:.28rem .7rem;border-radius:4px}
+    .ab-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:2rem;position:relative;overflow:hidden}
+    .ab-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3))}
+    .ab-qi{display:flex;flex-direction:column;gap:1.1rem}
+    .ab-item{display:flex;align-items:center;gap:1rem}
+    .ab-icon{width:36px;height:36px;border-radius:8px;background:rgba(56,217,245,.07);border:1px solid rgba(56,217,245,.12);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+    .ab-lbl{font-family:var(--fm);font-size:.65rem;color:var(--text3);letter-spacing:.05em;text-transform:uppercase}
+    .ab-val{font-size:.9rem;color:var(--text)}
+
+    /* ── EXPERIENCE ── */
+    #experience{border-top:1px solid var(--border)}
+    .ex-item{display:grid;grid-template-columns:200px 1fr;gap:3rem;padding:2.5rem 0;border-bottom:1px solid var(--border);position:relative}
+    .ex-item:last-child{border-bottom:none}
+    .ex-item::before{content:'';position:absolute;left:197px;top:3.1rem;width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(56,217,245,.15)}
+    .ex-dt{font-family:var(--fm);font-size:.72rem;color:var(--text3);padding-top:.3rem;text-align:right;padding-right:2rem}
+    .ex-role{font-family:var(--fd);font-size:1.1rem;font-weight:600;color:var(--text);letter-spacing:-.02em;margin-bottom:.2rem}
+    .ex-co{font-size:.9rem;color:var(--accent);margin-bottom:.2rem}
+    .ex-type{font-family:var(--fm);font-size:.69rem;color:var(--text3);margin-bottom:.9rem}
+    .ex-buls{list-style:none;display:flex;flex-direction:column;gap:.45rem}
+    .ex-buls li{font-size:.87rem;color:var(--text2);padding-left:1.2rem;position:relative;line-height:1.72}
+    .ex-buls li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:.77rem}
+    .ex-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.9rem}
+
+    /* ── PROJECTS ── */
+    #projects{border-top:1px solid var(--border)}
+    .pj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:1.4rem}
+    .pj-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:1.8rem;position:relative;overflow:hidden;transition:all .3s var(--e);display:flex;flex-direction:column;cursor:pointer}
+    .pj-card::after{content:'';position:absolute;inset:0;background:radial-gradient(500px circle at var(--mx,50%) var(--my,50%),rgba(56,217,245,.04),transparent 40%);opacity:0;transition:opacity .3s}
+    .pj-card:hover{border-color:var(--border2);transform:translateY(-5px);box-shadow:0 20px 60px rgba(0,0,0,.45)}
+    .pj-card:hover::after{opacity:1}
+    .pj-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.1rem}
+    .pj-icon{font-size:1.9rem;line-height:1}
+    .pj-links{display:flex;gap:.4rem}
+    .pj-link{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text3);text-decoration:none;font-size:.84rem;transition:all .2s}
+    .pj-link:hover{color:var(--accent);border-color:rgba(56,217,245,.3);background:rgba(56,217,245,.08)}
+    .pj-nm{font-family:var(--fd);font-size:1.08rem;font-weight:600;color:var(--text);letter-spacing:-.02em;margin-bottom:.55rem}
+    .pj-desc{font-size:.86rem;color:var(--text2);line-height:1.72;margin-bottom:1.4rem;flex:1}
+    .pj-stack{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:auto}
+    .pj-tag{font-family:var(--fm);font-size:.65rem;color:var(--accent3);background:rgba(180,138,255,.08);border:1px solid rgba(180,138,255,.15);padding:.17rem .55rem;border-radius:4px}
+    .feat-badge{font-family:var(--fm);font-size:.6rem;letter-spacing:.08em;color:var(--accent2);background:rgba(94,231,176,.09);border:1px solid rgba(94,231,176,.2);padding:.17rem .5rem;border-radius:4px;text-transform:uppercase}
+    .pub-badge{font-family:var(--fm);font-size:.6rem;letter-spacing:.08em;color:var(--accent4);background:rgba(249,124,110,.09);border:1px solid rgba(249,124,110,.2);padding:.17rem .5rem;border-radius:4px;text-transform:uppercase}
+    .ai-badge{font-family:var(--fm);font-size:.6rem;letter-spacing:.08em;color:var(--accent3);background:rgba(180,138,255,.1);border:1px solid rgba(180,138,255,.25);padding:.17rem .5rem;border-radius:4px;text-transform:uppercase}
+    .click-hint{font-family:var(--fm);font-size:.63rem;color:var(--text3);letter-spacing:.05em;margin-top:1rem;transition:color .2s}
+    .pj-card:hover .click-hint{color:var(--accent)}
+
+    /* ── SKILLS ── */
+    #skills{border-top:1px solid var(--border)}
+    .sk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.3rem}
+    .sk-cat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem;transition:border-color .2s,transform .2s}
+    .sk-cat:hover{border-color:var(--border2);transform:translateY(-3px)}
+    .sk-ct{font-family:var(--fm);font-size:.69rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+    .sk-ct::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent)}
+    /* AI category gets purple accent */
+    .sk-cat.ai-cat{border-color:rgba(180,138,255,0.15)}
+    .sk-cat.ai-cat .sk-ct{color:var(--accent3)}
+    .sk-cat.ai-cat .sk-ct::before{background:var(--accent3)}
+    .sk-cat.ai-cat:hover{border-color:rgba(180,138,255,0.3)}
+    .sk-pills{display:flex;flex-wrap:wrap;gap:.4rem}
+    .sk-pill{font-family:var(--fm);font-size:.71rem;color:var(--text2);background:rgba(255,255,255,.04);border:1px solid var(--border);padding:.24rem .6rem;border-radius:5px;transition:all .15s}
+    .sk-pill:hover{color:var(--accent);border-color:rgba(56,217,245,.3);background:rgba(56,217,245,.06)}
+    .sk-pill.ai{color:var(--accent3);background:rgba(180,138,255,.06);border-color:rgba(180,138,255,.15)}
+    .sk-pill.ai:hover{color:var(--accent3);border-color:rgba(180,138,255,.4);background:rgba(180,138,255,.12)}
+
+    /* ── EDUCATION ── */
+    #education{border-top:1px solid var(--border)}
+    .edu-item{display:grid;grid-template-columns:200px 1fr;gap:3rem;padding:2.5rem 0;border-bottom:1px solid var(--border)}
+    .edu-item:last-child{border-bottom:none}
+    .edu-dt{font-family:var(--fm);font-size:.72rem;color:var(--text3);padding-top:.3rem}
+    .edu-deg{font-family:var(--fd);font-size:1.15rem;font-weight:600;color:var(--text);letter-spacing:-.02em;margin-bottom:.2rem}
+    .edu-sch{font-size:.92rem;color:var(--accent);margin-bottom:.3rem}
+    .edu-det{font-size:.84rem;color:var(--text2);font-family:var(--fm)}
+    .gpa-badge{display:inline-block;font-family:var(--fm);font-size:.7rem;color:var(--accent2);background:rgba(94,231,176,.1);border:1px solid rgba(94,231,176,.2);padding:.2rem .6rem;border-radius:5px;margin-top:.4rem}
+    .edu-crs{margin-top:1rem;display:flex;flex-wrap:wrap;gap:.4rem}
+    .crs-tag{font-family:var(--fm);font-size:.67rem;color:var(--text3);background:rgba(255,255,255,.03);border:1px solid var(--border);padding:.18rem .55rem;border-radius:4px}
+
+    /* ── CERTIFICATIONS ── */
+    #certifications{border-top:1px solid var(--border)}
+    .cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.1rem}
+    .cert-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem;display:flex;gap:1rem;align-items:flex-start;transition:all .2s;text-decoration:none}
+    .cert-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+    .cert-icon{font-size:1.4rem;flex-shrink:0;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);border-radius:8px;border:1px solid var(--border)}
+    .cert-title{font-family:var(--fd);font-size:.91rem;font-weight:600;color:var(--text);letter-spacing:-.01em;margin-bottom:.2rem}
+    .cert-org{font-size:.8rem;color:var(--accent);margin-bottom:.15rem}
+    .cert-note{font-family:var(--fm);font-size:.67rem;color:var(--text3)}
+
+    /* ── TESTIMONIALS ── */
+    #testimonials{border-top:1px solid var(--border)}
+    .tm-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .tm-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:2rem;position:relative;overflow:hidden;transition:border-color .2s}
+    .tm-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent3),var(--accent))}
+    .tm-card:hover{border-color:var(--border2)}
+    .q-mark{font-family:'Georgia',serif;font-size:4rem;line-height:.8;color:rgba(56,217,245,.15);margin-bottom:.5rem}
+    .tm-text{font-size:.87rem;color:var(--text2);line-height:1.8;font-style:italic;margin-bottom:1.2rem}
+    .tm-author{font-family:var(--fd);font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:.15rem}
+    .tm-role{font-family:var(--fm);font-size:.69rem;color:var(--accent)}
+
+    /* ── CONTACT (simplified — no form) ── */
+    #contact{border-top:1px solid var(--border)}
+    .ct-wrap{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+    .ct-info h2{font-family:var(--fd);font-size:clamp(1.7rem,3.5vw,2.4rem);font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:1rem}
+    .ct-info p{font-size:.94rem;color:var(--text2);line-height:1.78;margin-bottom:2rem}
+    .ct-links{display:flex;flex-direction:column;gap:.9rem}
+    .ct-lnk{display:flex;align-items:center;gap:.75rem;font-size:.87rem;color:var(--text2);text-decoration:none;transition:color .2s}
+    .ct-lnk:hover{color:var(--accent)}
+    .ct-lnk:hover .ct-ico{background:rgba(56,217,245,.1);border-color:rgba(56,217,245,.3)}
+    .ct-ico{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;transition:all .2s}
+    /* Availability card */
+    .avail-card{background:var(--surface);border:1px solid rgba(94,231,176,0.2);border-radius:var(--rl);padding:2rem;position:relative;overflow:hidden}
+    .avail-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent2),var(--accent))}
+    .avail-title{font-family:var(--fd);font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:.5rem}
+    .avail-status{display:flex;align-items:center;gap:.6rem;font-family:var(--fm);font-size:.78rem;color:var(--accent2);margin-bottom:1.2rem}
+    .avail-dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);animation:pulse 2s infinite}
+    .avail-roles{display:flex;flex-direction:column;gap:.6rem}
+    .avail-role{display:flex;align-items:center;gap:.7rem;font-size:.88rem;color:var(--text2)}
+    .avail-role::before{content:'✓';color:var(--accent2);font-size:.8rem;font-weight:700}
+
+    /* ── FOOTER ── */
+    footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2.5rem clamp(1.5rem,8vw,10rem);max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .ft-copy{font-family:var(--fm);font-size:.7rem;color:var(--text3)}
+    .ft-copy span{color:var(--accent)}
+    .ft-links{display:flex;gap:.8rem;align-items:center}
+    .ft-lnk{width:34px;height:34px;border-radius:8px;background:transparent;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text3);text-decoration:none;font-size:.87rem;transition:all .2s}
+    .ft-lnk:hover{color:var(--accent);border-color:rgba(56,217,245,.3);background:rgba(56,217,245,.06)}
+
+    /* ── SCROLL REVEAL ── */
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s var(--e),transform .7s var(--e)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .rd1{transition-delay:.1s} .rd2{transition-delay:.2s} .rd3{transition-delay:.3s}
+
+    /* ── TOAST ── */
+    .toast{position:fixed;bottom:2rem;right:2rem;background:var(--surface);border:1px solid rgba(56,217,245,.3);border-radius:10px;padding:.9rem 1.4rem;font-family:var(--fm);font-size:.77rem;color:var(--accent);z-index:9999;transform:translateY(100px);opacity:0;transition:all .4s var(--e)}
+    .toast.show{transform:translateY(0);opacity:1}
+
+    /* ── MODAL ── */
+    .modal-overlay{position:fixed;inset:0;z-index:9000;background:rgba(6,9,15,0.92);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity .35s var(--e)}
+    .modal-overlay.open{opacity:1;pointer-events:all}
+    .modal-box{background:#0f1622;border:1px solid rgba(56,217,245,0.15);border-radius:24px;width:100%;max-width:860px;max-height:90vh;overflow-y:auto;position:relative;transform:translateY(40px) scale(0.97);transition:transform .35s var(--e);scrollbar-width:thin;scrollbar-color:var(--accent) transparent}
+    .modal-overlay.open .modal-box{transform:translateY(0) scale(1)}
+    .modal-box::-webkit-scrollbar{width:3px} .modal-box::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+    .modal-header-band{position:relative;padding:2.5rem 2.5rem 2rem;border-bottom:1px solid rgba(255,255,255,0.07);background:linear-gradient(135deg,rgba(56,217,245,0.05) 0%,rgba(94,231,176,0.03) 100%)}
+    .modal-header-band::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3))}
+    .modal-close{position:absolute;top:1.5rem;right:1.5rem;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .2s;line-height:1}
+    .modal-close:hover{background:rgba(249,124,110,0.15);border-color:rgba(249,124,110,0.4);color:var(--accent4)}
+    .modal-meta{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap}
+    .modal-icon{font-size:2.2rem}
+    .modal-badge{font-family:var(--fm);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .6rem;border-radius:4px}
+    .modal-badge.feat{color:var(--accent2);background:rgba(94,231,176,0.1);border:1px solid rgba(94,231,176,.2)}
+    .modal-badge.pub{color:var(--accent4);background:rgba(249,124,110,0.1);border:1px solid rgba(249,124,110,.2)}
+    .modal-badge.ai{color:var(--accent3);background:rgba(180,138,255,0.1);border:1px solid rgba(180,138,255,.25)}
+    .modal-title{font-family:'Syne',sans-serif;font-size:clamp(1.4rem,3vw,1.9rem);font-weight:700;letter-spacing:-.03em;color:var(--text);margin-bottom:.5rem}
+    .modal-subtitle{font-size:.92rem;color:var(--text2);line-height:1.65}
+    .modal-links-row{display:flex;gap:.75rem;margin-top:1.2rem;flex-wrap:wrap}
+    .modal-ext-link{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--fm);font-size:.73rem;letter-spacing:.04em;color:var(--accent);border:1px solid rgba(56,217,245,.3);padding:.35rem .9rem;border-radius:6px;text-decoration:none;transition:all .2s}
+    .modal-ext-link:hover{background:rgba(56,217,245,.08)}
+    .modal-body{padding:2.5rem}
+    .modal-stats{display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
+    .modal-stat{flex:1;min-width:120px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1rem 1.2rem;text-align:center}
+    .modal-stat-num{font-family:'Syne',sans-serif;font-size:1.55rem;font-weight:700;color:var(--accent);letter-spacing:-.03em;line-height:1;margin-bottom:.2rem}
+    .modal-stat-lbl{font-family:var(--fm);font-size:.61rem;color:var(--text3);letter-spacing:.06em;text-transform:uppercase}
+    .modal-section{margin-bottom:2rem}
+    .modal-section-title{font-family:var(--fm);font-size:.69rem;letter-spacing:.12em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+    .modal-section-title::after{content:'';flex:1;height:1px;background:rgba(56,217,245,.2)}
+    .modal-section p{font-size:.9rem;color:var(--text2);line-height:1.8;margin-bottom:.75rem}
+    .modal-section p strong{color:var(--text);font-weight:500}
+    .modal-phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem;margin-bottom:1rem}
+    .modal-phase{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:1rem}
+    .modal-phase-num{font-family:var(--fm);font-size:.62rem;color:var(--accent);letter-spacing:.1em;margin-bottom:.3rem}
+    .modal-phase-title{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:.35rem}
+    .modal-phase-desc{font-size:.78rem;color:var(--text2);line-height:1.6}
+    .modal-outcomes{display:flex;flex-direction:column;gap:.6rem}
+    .modal-outcome{display:flex;gap:.75rem;align-items:flex-start;background:rgba(56,217,245,0.04);border:1px solid rgba(56,217,245,.1);border-radius:8px;padding:.75rem 1rem}
+    .modal-outcome-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:.45rem;flex-shrink:0}
+    .modal-outcome-text{font-size:.87rem;color:var(--text2);line-height:1.7}
+    .modal-outcome-text strong{color:var(--accent);font-weight:500}
+    .modal-tools{display:flex;flex-wrap:wrap;gap:.4rem}
+    .modal-tool{font-family:var(--fm);font-size:.7rem;color:var(--accent3);background:rgba(180,138,255,.08);border:1px solid rgba(180,138,255,.15);padding:.25rem .65rem;border-radius:5px}
+    .modal-img-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem}
+    .modal-img-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;font-family:var(--fm);font-size:.7rem;color:var(--text3);overflow:hidden;position:relative}
+    .modal-img-card .img-label{position:absolute;bottom:.6rem;left:.8rem;font-family:var(--fm);font-size:.65rem;color:var(--text3);background:rgba(6,9,15,0.7);padding:.15rem .45rem;border-radius:4px}
+    .viz-bar{width:100%;height:100%;display:flex;align-items:flex-end;padding:1.5rem 1rem 2.2rem;gap:6px}
+    .viz-bar-col{flex:1;border-radius:4px 4px 0 0}
+    .dot{position:absolute;border-radius:50%;opacity:.7}
+    .flow-box{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;padding:.75rem}
+    .flow-node{background:rgba(56,217,245,.12);border:1px solid rgba(56,217,245,.25);border-radius:6px;padding:.3rem .7rem;font-size:.65rem;font-family:var(--fm);color:var(--accent);width:80%;text-align:center}
+    .flow-arrow{color:var(--text3);font-size:.7rem}
+    .flow-node.ai-node{background:rgba(180,138,255,.12);border-color:rgba(180,138,255,.25);color:var(--accent3)}
+    .acc-bar{display:flex;flex-direction:column;gap:6px;padding:1rem;width:100%}
+    .acc-row{display:flex;align-items:center;gap:.5rem}
+    .acc-name{font-size:.6rem;font-family:var(--fm);color:var(--text3);width:90px;flex-shrink:0}
+    .acc-track{flex:1;background:rgba(255,255,255,.05);border-radius:3px;height:8px;overflow:hidden}
+    .acc-fill{height:100%;border-radius:3px}
+    .acc-pct{font-size:.6rem;font-family:var(--fm);color:var(--text2);width:32px;text-align:right;flex-shrink:0}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){
+      .ab-grid,.ct-wrap{grid-template-columns:1fr;gap:3rem}
+      .edu-item,.ex-item{grid-template-columns:1fr;gap:.5rem}
+      .ex-item::before{display:none}
+      .edu-dt,.ex-dt{text-align:left;padding-right:0}
+      .nav-links{display:none} .hamburger{display:flex}
+      .tm-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:600px){.pj-grid,.cert-grid{grid-template-columns:1fr}.sk-grid{grid-template-columns:1fr 1fr}.modal-img-grid{grid-template-columns:1fr}.modal-phases{grid-template-columns:1fr 1fr}.modal-stats{flex-wrap:wrap}.modal-box{border-radius:16px}.modal-header-band,.modal-body{padding:1.5rem}}
+    @media(max-width:400px){.sk-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="cursor-glow" id="cg"></div>
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header-band" id="modalHeader"></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">SB<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Toolkit</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="resume.pdf" target="_blank" class="nav-cta">Resume ↗</a></li>
+  </ul>
+  <div class="hamburger" id="hbg" onclick="tmenu()"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mm">
+  <a href="#about" onclick="tmenu()">About</a>
+  <a href="#experience" onclick="tmenu()">Experience</a>
+  <a href="#projects" onclick="tmenu()">Projects</a>
+  <a href="#skills" onclick="tmenu()">Toolkit</a>
+  <a href="#education" onclick="tmenu()">Education</a>
+  <a href="#certifications" onclick="tmenu()">Certs</a>
+  <a href="#contact" onclick="tmenu()">Contact</a>
+  <a href="resume.pdf" target="_blank">Resume ↗</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-glow"></div><div class="hero-glow2"></div>
+  <div>
+    <div class="hero-badge">Open to Full-Time Roles &amp; Internships</div>
+    <h1 class="hero-name">Shruti<br><span class="hi">Borkar.</span></h1>
+    <p class="hero-title">Data Engineer &nbsp;·&nbsp; AI Builder &nbsp;·&nbsp; Analytics Storyteller</p>
+    <p class="hero-desc">I build data pipelines and AI systems that ship to production. Previously at Five EDC Architects and Tata Consumer Products — cutting reporting time by 65%, hitting 99.9% forecast accuracy, and improving recommendation accuracy by 75%.</p>
+    <div class="hero-ai-row">
+      <span class="ai-pill">LangChain</span>
+      <span class="ai-pill">Agentic AI</span>
+      <span class="ai-pill">RAG Pipelines</span>
+      <span class="ai-pill">OpenAI API</span>
+      <span class="ai-pill">Databricks</span>
+      <span class="ai-pill">Delta Lake</span>
+      <span class="ai-pill">Apache Spark</span>
+      <span class="ai-pill">MLflow</span>
+    </div>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-p">View My Work →</a>
+      <a href="#experience" class="btn-s">Experience</a>
+      <a href="resume.pdf" target="_blank" class="btn-s">↓ Resume</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="s-num">65<span>%</span></div><div class="s-lbl">Reporting Reduction</div></div>
+      <div><div class="s-num">99.9<span>%</span></div><div class="s-lbl">Forecast Accuracy</div></div>
+      <div><div class="s-num">75<span>%</span></div><div class="s-lbl">ML Uplift</div></div>
+      <div><div class="s-num">4.0</div><div class="s-lbl">MS GPA</div></div>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div>Scroll</div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="about">
+  <div class="sec-label">00 — About</div>
+  <div class="ab-grid">
+    <div class="ab-text reveal">
+      <h2 class="sec-title" style="margin-bottom:1.5rem">Hello, I'm<br>Shruti.</h2>
+      <p>I'm a <strong>Data Engineer</strong> with 2+ years of experience building ETL pipelines and AI systems in production. Currently completing my MS in Business Analytics at UMass Amherst (GPA: 4.0).</p>
+      <p>My engineering stack is <strong>Databricks, Apache Spark, Delta Lake, and Airflow</strong>. On the AI side I work with <strong>LangChain, RAG pipelines, OpenAI API, and MLflow</strong>. I write clean SQL, Python, and PySpark and care about the full pipeline — from raw ingestion to the dashboard a stakeholder actually uses.</p>
+      <p>At <strong>Five EDC Architects</strong> I designed SQL/Databricks ETL workflows and built an AI knowledge graph on SCM data. At <strong>Tata Consumer Products</strong> I processed 1M+ sales records and deployed ThoughtSpot dashboards that cut reporting time by 45%.</p>
+      <div class="ab-tags">
+        <span class="tag">Data Engineering</span>
+        <span class="tag">Agentic AI</span>
+        <span class="tag">RAG Pipelines</span>
+        <span class="tag">LLM Integration</span>
+        <span class="tag">ETL / Delta Lake</span>
+        <span class="tag">BI &amp; Analytics</span>
+      </div>
+    </div>
+    <div class="ab-card reveal rd2">
+      <div class="ab-qi">
+        <div class="ab-item"><div class="ab-icon">🎓</div><div><div class="ab-lbl">Degree</div><div class="ab-val">MS Business Analytics — GPA 4.0</div></div></div>
+        <div class="ab-item"><div class="ab-icon">🏫</div><div><div class="ab-lbl">University</div><div class="ab-val">UMass Amherst (Expected May 2026)</div></div></div>
+        <div class="ab-item"><div class="ab-icon">🎓</div><div><div class="ab-lbl">Undergraduate</div><div class="ab-val">CS &amp; Business Systems — NMIMS Mumbai</div></div></div>
+        <div class="ab-item"><div class="ab-icon">📍</div><div><div class="ab-lbl">Location</div><div class="ab-val">Amherst, MA (Open to Relocate)</div></div></div>
+        <div class="ab-item"><div class="ab-icon">📞</div><div><div class="ab-lbl">Phone</div><div class="ab-val">+1 (413) 510-7393</div></div></div>
+        <div class="ab-item"><div class="ab-icon">✉️</div><div><div class="ab-lbl">Email</div><div class="ab-val">shrutiborkar13@gmail.com</div></div></div>
+        <div class="ab-item"><div class="ab-icon">💼</div><div><div class="ab-lbl">Status</div><div class="ab-val" style="color:var(--accent2)">Open to Opportunities ✓</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EXPERIENCE ══ -->
+<section id="experience">
+  <div class="sec-label">01 — Experience</div>
+  <h2 class="sec-title">Work Experience</h2>
+
+  <div class="ex-item reveal">
+    <div class="ex-dt">Jan 2021 –<br>May 2023</div>
+    <div>
+      <div class="ex-role">Data Engineer</div>
+      <div class="ex-co">Five EDC Architects</div>
+      <div class="ex-type">Full-Time · On-site</div>
+      <ul class="ex-buls">
+        <li>Reduced manual reporting by <strong>65%</strong> by designing scalable SQL/Databricks ETL workflows and structured data models, improving data warehousing reliability and operational efficiency.</li>
+        <li>Reduced RFP delays by <strong>28%</strong> by delivering Power BI dashboards with DAX KPIs and presenting data storytelling insights to leadership, accelerating strategic decisions.</li>
+        <li>Engineered an <strong>AI-powered knowledge graph</strong> using SCM data to forecast vendor efficacy, reducing delays by 28%.</li>
+        <li>Improved forecast accuracy to <strong>99.9%</strong> by automating KPI pipelines in partnership with finance and operations, strengthening enterprise BI capabilities.</li>
+      </ul>
+      <div class="ex-tags"><span class="tag">SQL</span><span class="tag">Databricks</span><span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">ETL</span><span class="tag">Data Modeling</span><span class="tag">AI Knowledge Graph</span></div>
+    </div>
+  </div>
+
+  <div class="ex-item reveal rd1">
+    <div class="ex-dt">May 2023 –<br>Jul 2023</div>
+    <div>
+      <div class="ex-role">Data Science &amp; AI Intern</div>
+      <div class="ex-co">Tata Consumer Products</div>
+      <div class="ex-type">Internship · On-site</div>
+      <ul class="ex-buls">
+        <li>Built ETL pipelines with SQL, Python, and Alteryx to process <strong>1M+ sales records</strong> with integrated dashboard components.</li>
+        <li>Performed data profiling, normalization, and encoding via rule-based validation and statistical techniques to identify and correct data anomalies, improving downstream model reliability.</li>
+        <li>Developed collaborative filtering and regression models, boosting product recommendation accuracy by <strong>75%</strong>.</li>
+        <li>Applied feature engineering and preprocessing to improve model performance and interpretability.</li>
+        <li>Created SQL-based data pipelines and deployed AI-driven ThoughtSpot dashboards, reducing reporting time by <strong>45%</strong>.</li>
+      </ul>
+      <div class="ex-tags"><span class="tag">Python</span><span class="tag">SQL</span><span class="tag">Alteryx</span><span class="tag">ThoughtSpot</span><span class="tag">ML</span><span class="tag">Feature Engineering</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJECTS ══ -->
+<section id="projects">
+  <div class="sec-label">02 — Projects</div>
+  <h2 class="sec-title">Featured Work</h2>
+  <div class="pj-grid">
+
+    <div class="pj-card reveal" data-idx="0">
+      <div class="pj-top"><div class="pj-icon">🎬</div><div class="pj-links"><a href="https://github.com/shrutiborkar13" target="_blank" class="pj-link" onclick="event.stopPropagation()">↗</a></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.55rem"><div class="pj-nm">Netflix Genre Intelligence &amp; Agentic AI</div><span class="ai-badge">Agentic AI</span></div>
+      <p class="pj-desc">End-to-end pipeline on Databricks — K-Means gap analysis across 140+ countries, GPT-4 LLM recommendations via LangChain, Streamlit Q&amp;A chatbot, and Power BI DAX dashboard for content investment strategy.</p>
+      <div class="pj-stack"><span class="pj-tag">Databricks</span><span class="pj-tag">LangChain</span><span class="pj-tag">OpenAI API</span><span class="pj-tag">Python</span><span class="pj-tag">SQL</span><span class="pj-tag">Power BI</span><span class="pj-tag">K-Means</span></div>
+      <div class="click-hint">↗ Click to explore full case study</div>
+    </div>
+
+    <div class="pj-card reveal rd1" data-idx="1">
+      <div class="pj-top"><div class="pj-icon">🧠</div><div class="pj-links"><a href="https://github.com/shrutiborkar13" target="_blank" class="pj-link" onclick="event.stopPropagation()">↗</a></div></div>
+      <div class="pj-nm">Human Behaviour Classification via ML</div>
+      <p class="pj-desc">Multi-label activity classification on the ExtraSensory dataset (60 users, 300K+ samples). 94% accuracy with Random Forest, outperforming Logistic Regression by 17% F1. Statistical QA via t-test, Chi-square, ANOVA.</p>
+      <div class="pj-stack"><span class="pj-tag">Python</span><span class="pj-tag">scikit-learn</span><span class="pj-tag">Random Forest</span><span class="pj-tag">Statistical Analysis</span><span class="pj-tag">ANOVA</span></div>
+      <div class="click-hint">↗ Click to explore full case study</div>
+    </div>
+
+    <div class="pj-card reveal rd2" data-idx="2">
+      <div class="pj-top"><div class="pj-icon">👟</div><div class="pj-links"><a href="https://github.com/shrutiborkar13" target="_blank" class="pj-link" onclick="event.stopPropagation()">↗</a></div></div>
+      <div class="pj-nm">Adidas Sales Analytics</div>
+      <p class="pj-desc">Advanced statistical analysis of ~9.6K records. Log-log regression for price elasticity (β₁ ≈ –1.8), K-Means segmentation, COVID-19 time-series, geo-spatial COGS heatmaps revealing $180M cost reduction opportunity.</p>
+      <div class="pj-stack"><span class="pj-tag">Python</span><span class="pj-tag">SQL</span><span class="pj-tag">Tableau</span><span class="pj-tag">Regression</span><span class="pj-tag">K-Means</span></div>
+      <div class="click-hint">↗ Click to explore full case study</div>
+    </div>
+
+    <div class="pj-card reveal" data-idx="3">
+      <div class="pj-top"><div class="pj-icon">🚁</div><div class="pj-links"><a href="https://github.com/shrutiborkar13" target="_blank" class="pj-link" onclick="event.stopPropagation()">↗</a></div></div>
+      <div class="pj-nm">Amazon Air Drone Deployment</div>
+      <p class="pj-desc">Data-driven phased deployment model for Amazon Prime Air across Massachusetts. Mapped 56 hubs across 14 counties covering ~5.1M residents using GIS, FAA airspace analysis, and Python geospatial modeling.</p>
+      <div class="pj-stack"><span class="pj-tag">SQL</span><span class="pj-tag">Power BI</span><span class="pj-tag">GIS</span><span class="pj-tag">Python (Folium)</span><span class="pj-tag">MS Excel</span></div>
+      <div class="click-hint">↗ Click to explore full case study</div>
+    </div>
+
+    <div class="pj-card reveal rd1" data-idx="4">
+      <div class="pj-top"><div class="pj-icon">🔬</div><div class="pj-links"><a href="https://www.ijcaonline.org/archives/volume185/number3/32682-2023922679/" target="_blank" class="pj-link" onclick="event.stopPropagation()">↗</a></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.55rem"><div class="pj-nm">Skin Lesion Classification</div><span class="pub-badge">Published</span></div>
+      <p class="pj-desc">IJCA-published research classifying 7 skin cancer types from 10K+ dermoscopic images. ResNet18 at 85% accuracy outperforms MobileNet (83.1%). CLAHE preprocessing, GLCM features, Grad-CAM interpretability.</p>
+      <div class="pj-stack"><span class="pj-tag">Python</span><span class="pj-tag">ResNet18</span><span class="pj-tag">CLAHE</span><span class="pj-tag">GLCM</span><span class="pj-tag">Grad-CAM</span></div>
+      <div class="click-hint">↗ Click to explore full case study</div>
+    </div>
+
+    <div class="pj-card reveal rd2" data-idx="5">
+      <div class="pj-top"><div class="pj-icon">🫀</div><div class="pj-links"><a href="https://github.com/shrutiborkar13" target="_blank" class="pj-link" onclick="event.stopPropagation()">↗</a></div></div>
+      <div class="pj-nm">Brain Alzheimer Detection (CNN)</div>
+      <p class="pj-desc">Custom CNN classifying 4 Alzheimer stages from 5,121 MRI images. 93.7% accuracy — outperforming DBN (91%) and Multi-Kernel Learning (93.5%). SMOTE class balancing, SeparableConv2D for efficiency.</p>
+      <div class="pj-stack"><span class="pj-tag">Python</span><span class="pj-tag">CNN</span><span class="pj-tag">SMOTE</span><span class="pj-tag">Keras</span><span class="pj-tag">TensorFlow</span></div>
+      <div class="click-hint">↗ Click to explore full case study</div>
+    </div>
+
+    <div class="pj-card reveal" data-idx="6">
+      <div class="pj-top"><div class="pj-icon">📊</div><div class="pj-links"><a href="https://github.com/shrutiborkar13" target="_blank" class="pj-link" onclick="event.stopPropagation()">↗</a></div></div>
+      <div class="pj-nm">Employee Analysis — Power BI</div>
+      <p class="pj-desc">HR analytics dashboard with advanced DAX — SWITCH() age banding, SUMX() bonus expense, pay equity area charts. KPI cards for headcount, salary, compensation. Enables DEI monitoring and strategic workforce planning.</p>
+      <div class="pj-stack"><span class="pj-tag">DAX</span><span class="pj-tag">SQL</span><span class="pj-tag">Power BI</span><span class="pj-tag">HR Analytics</span></div>
+      <div class="click-hint">↗ Click to explore full case study</div>
+    </div>
+
+    <div class="pj-card reveal rd1" data-idx="7">
+      <div class="pj-top"><div class="pj-icon">📦</div><div class="pj-links"><a href="https://github.com/shrutiborkar13" target="_blank" class="pj-link" onclick="event.stopPropagation()">↗</a></div></div>
+      <div class="pj-nm">Warehouse Object Detection</div>
+      <p class="pj-desc">Automated inventory system — YOLOv8 at 97.26% mAP for product detection, Siamese Network at 95% accuracy for SKU classification, 93% shelf emptiness detection on SKU110K (1.7M+ annotations).</p>
+      <div class="pj-stack"><span class="pj-tag">Python</span><span class="pj-tag">YOLOv8</span><span class="pj-tag">Siamese Network</span><span class="pj-tag">SQL</span><span class="pj-tag">Power BI</span></div>
+      <div class="click-hint">↗ Click to explore full case study</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ SKILLS ══ -->
+<section id="skills">
+  <div class="sec-label">03 — Toolkit</div>
+  <h2 class="sec-title">Technical Skills</h2>
+  <div class="sk-grid">
+
+    <div class="sk-cat ai-cat reveal">
+      <div class="sk-ct">AI / LLMs</div>
+      <div class="sk-pills">
+        <span class="sk-pill ai">LangChain</span><span class="sk-pill ai">Agentic AI</span><span class="sk-pill ai">RAG Pipelines</span><span class="sk-pill ai">OpenAI API</span><span class="sk-pill ai">Prompt Engineering</span><span class="sk-pill ai">MLflow</span><span class="sk-pill ai">NLP</span>
+      </div>
+    </div>
+
+    <div class="sk-cat reveal rd1">
+      <div class="sk-ct">Data Platform</div>
+      <div class="sk-pills">
+        <span class="sk-pill">Databricks</span><span class="sk-pill">Apache Spark</span><span class="sk-pill">Apache Airflow</span><span class="sk-pill">Delta Lake</span><span class="sk-pill">ETL Pipelines</span><span class="sk-pill">Snowflake</span><span class="sk-pill">Data Warehousing</span>
+      </div>
+    </div>
+
+    <div class="sk-cat reveal rd2">
+      <div class="sk-ct">Languages</div>
+      <div class="sk-pills">
+        <span class="sk-pill">Python (Pandas, PySpark, NumPy)</span><span class="sk-pill">SQL (MySQL, PostgreSQL, BigQuery)</span><span class="sk-pill">R</span><span class="sk-pill">DAX</span><span class="sk-pill">MS Excel (Pivot, Macros)</span>
+      </div>
+    </div>
+
+    <div class="sk-cat reveal">
+      <div class="sk-ct">Cloud &amp; BI</div>
+      <div class="sk-pills">
+        <span class="sk-pill">AWS (S3, Glue)</span><span class="sk-pill">GCP (BigQuery)</span><span class="sk-pill">Azure</span><span class="sk-pill">Power BI</span><span class="sk-pill">Tableau</span><span class="sk-pill">ThoughtSpot</span><span class="sk-pill">Amazon QuickSight</span><span class="sk-pill">MATLAB</span>
+      </div>
+    </div>
+
+    <div class="sk-cat reveal rd1">
+      <div class="sk-ct">ML / Analytics</div>
+      <div class="sk-pills">
+        <span class="sk-pill">scikit-learn</span><span class="sk-pill">TensorFlow</span><span class="sk-pill">Statistical Analysis</span><span class="sk-pill">Feature Engineering</span><span class="sk-pill">A/B Testing</span><span class="sk-pill">Regression</span><span class="sk-pill">Clustering</span>
+      </div>
+    </div>
+
+    <div class="sk-cat reveal rd2">
+      <div class="sk-ct">Workflow &amp; Tools</div>
+      <div class="sk-pills">
+        <span class="sk-pill">Agile / Scrum</span><span class="sk-pill">Jira</span><span class="sk-pill">Notion</span><span class="sk-pill">SharePoint</span><span class="sk-pill">Figma</span><span class="sk-pill">DMAIC</span><span class="sk-pill">SAP</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ EDUCATION ══ -->
+<section id="education">
+  <div class="sec-label">04 — Education</div>
+  <h2 class="sec-title">Academic Background</h2>
+
+  <div class="edu-item reveal">
+    <div class="edu-dt">2024 – May 2026<br><span style="color:var(--text3);font-size:.65rem">Expected</span></div>
+    <div>
+      <div class="edu-deg">M.S. in Business Analytics</div>
+      <div class="edu-sch">University of Massachusetts Amherst</div>
+      <div class="edu-det">Amherst, MA</div>
+      <div class="gpa-badge">GPA: 4.0 / 4.0</div>
+      <div class="edu-crs">
+        <span class="crs-tag">Data Engineering</span><span class="crs-tag">Predictive Modeling</span><span class="crs-tag">Business Intelligence</span><span class="crs-tag">Statistical Analysis</span><span class="crs-tag">Machine Learning</span><span class="crs-tag">Data Visualization</span><span class="crs-tag">AI &amp; Analytics</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="edu-item reveal rd1">
+    <div class="edu-dt">2020 – May 2024</div>
+    <div>
+      <div class="edu-deg">B.Tech — Computer Science &amp; Business Systems</div>
+      <div class="edu-sch">NMIMS University</div>
+      <div class="edu-det">Mumbai, India</div>
+      <div class="gpa-badge">CGPA: 3.57 / 4.0</div>
+      <div class="edu-crs">
+        <span class="crs-tag">Machine Learning</span><span class="crs-tag">Computer Vision</span><span class="crs-tag">NLP</span><span class="crs-tag">Database Systems</span><span class="crs-tag">Data Analytics</span><span class="crs-tag">Business Management</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CERTIFICATIONS ══ -->
+<section id="certifications">
+  <div class="sec-label">05 — Certifications &amp; Publications</div>
+  <h2 class="sec-title">Credentials</h2>
+  <div class="cert-grid">
+
+    <a href="https://www.ijcaonline.org/archives/volume185/number3/32682-2023922679/" target="_blank" class="cert-card reveal">
+      <div class="cert-icon">📄</div>
+      <div>
+        <div class="cert-title">Published Research — IJCA 2024</div>
+        <div class="cert-org">International Journal of Computer Applications</div>
+        <div class="cert-note">Borkar et al. "Efficacy check of Haralick and Symmetry features for Skin Lesions Classification" · Vol. 185, No. 3</div>
+      </div>
+    </a>
+
+    <div class="cert-card reveal rd1">
+      <div class="cert-icon" style="font-size:1.1rem;font-weight:700;color:#e05c2a;background:rgba(224,92,42,0.1);border-color:rgba(224,92,42,0.2)">DB</div>
+      <div>
+        <div class="cert-title">AI Agent Fundamentals</div>
+        <div class="cert-org">Databricks</div>
+        <div class="cert-note">Agentic AI · LangChain · RAG · Delta Lake</div>
+      </div>
+    </div>
+
+    <div class="cert-card reveal rd2">
+      <div class="cert-icon" style="font-size:1.1rem;font-weight:700;color:#e05c2a;background:rgba(224,92,42,0.1);border-color:rgba(224,92,42,0.2)">DB</div>
+      <div>
+        <div class="cert-title">SQL Analytics &amp; BI on Databricks</div>
+        <div class="cert-org">Databricks</div>
+        <div class="cert-note">SQL Analytics · BI Workflows · Data Lakehouse</div>
+      </div>
+    </div>
+
+    <a href="https://coursera.org/share/9f8c372c76573b068982abbdd9bf20d0" target="_blank" class="cert-card reveal">
+      <div class="cert-icon" style="font-size:1rem;font-weight:700;color:#107C41;background:rgba(16,124,65,0.1);border-color:rgba(16,124,65,0.2)">MS</div>
+      <div>
+        <div class="cert-title">Power BI Data Analyst</div>
+        <div class="cert-org">Microsoft · Coursera</div>
+        <div class="cert-note">Professional Certificate · DAX · Power Query · BI Reporting</div>
+      </div>
+    </a>
+
+    <a href="https://coursera.org/share/e73849b1a5c5a38097f6b8325991fb20" target="_blank" class="cert-card reveal rd1">
+      <div class="cert-icon">🤖</div>
+      <div>
+        <div class="cert-title">Gen AI for Data Analysts</div>
+        <div class="cert-org">IBM · Coursera</div>
+        <div class="cert-note">Generative AI · LLM Applications · Prompt Engineering</div>
+      </div>
+    </a>
+
+    <a href="https://www.credly.com/badges/b94d9647-86bb-4b05-8f54-04b564f471da" target="_blank" class="cert-card reveal rd2">
+      <div class="cert-icon">📊</div>
+      <div>
+        <div class="cert-title">Gen AI for BI Analysts</div>
+        <div class="cert-org">IBM · Credly Badge</div>
+        <div class="cert-note">AI-driven Business Intelligence · Generative Analytics</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section id="testimonials">
+  <div class="sec-label">06 — Recommendations</div>
+  <h2 class="sec-title">What People Say</h2>
+  <div class="tm-grid">
+    <div class="tm-card reveal">
+      <div class="q-mark">"</div>
+      <p class="tm-text">What sets Shruti apart is not just technical expertise, but a genuine curiosity and a problem-solving mindset. She is always ready to dive deep into a challenge, bring fresh ideas to the table, and follow through with consistent execution. Any team would be lucky to have her on board.</p>
+      <div class="tm-author">Adwait Laud</div>
+      <div class="tm-role">Associate Application Developer @ OFSS</div>
+    </div>
+    <div class="tm-card reveal rd2">
+      <div class="q-mark">"</div>
+      <p class="tm-text">Shruti has been a brilliant performer in the field of Content Marketing at Step Up Student. Her genuine interest and involvement in every task has helped us grow socially! I believe this recommendation would help her stay creative and inspired throughout the whole career.</p>
+      <div class="tm-author">Mohit Verma</div>
+      <div class="tm-role">Founder, Project Banao</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+  <div class="sec-label">07 — Contact</div>
+  <div class="ct-wrap">
+    <div class="ct-info reveal">
+      <h2>Get in<br>touch<span style="color:var(--accent)">.</span></h2>
+      <p>If you have a role, project, or research opportunity you think I'd be a good fit for, feel free to reach out. I check email daily.</p>
+      <div class="ct-links">
+        <a href="mailto:shrutiborkar13@gmail.com" class="ct-lnk"><div class="ct-ico">✉️</div>shrutiborkar13@gmail.com</a>
+        <a href="tel:+14135107393" class="ct-lnk"><div class="ct-ico">📞</div>+1 (413) 510-7393</a>
+        <a href="https://linkedin.com/in/shrutiborkar13" target="_blank" class="ct-lnk"><div class="ct-ico" style="font-size:.68rem;font-weight:700;font-family:'Syne',sans-serif">in</div>linkedin.com/in/shrutiborkar13</a>
+        <a href="https://github.com/shrutiborkar13" target="_blank" class="ct-lnk">
+          <div class="ct-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></div>
+          github.com/shrutiborkar13
+        </a>
+        <a href="https://medium.com/@shrutiborkar13" target="_blank" class="ct-lnk"><div class="ct-ico" style="font-size:.68rem;font-weight:700;font-family:'Syne',sans-serif">M</div>medium.com/@shrutiborkar13</a>
+      </div>
+    </div>
+    <div class="avail-card reveal rd2">
+      <div class="avail-title">Looking For</div>
+      <div class="avail-status"><div class="avail-dot"></div>Actively looking — Summer / Fall 2025</div>
+      <div class="avail-roles">
+        <div class="avail-role">Data Engineer</div>
+        <div class="avail-role">AI / ML Engineer</div>
+        <div class="avail-role">Analytics Engineer</div>
+      </div>
+      <div style="margin-top:1.5rem;display:flex;gap:.75rem;flex-wrap:wrap">
+        <a href="resume.pdf" target="_blank" class="btn-p" style="padding:.7rem 1.4rem;font-size:.76rem">↓ Download Resume</a>
+        <a href="mailto:shrutiborkar13@gmail.com" class="btn-s" style="padding:.7rem 1.4rem;font-size:.76rem">✉ Send Email</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <p class="ft-copy">© 2025 <span>Shruti Borkar</span> · Data Engineer &amp; AI Builder</p>
+  <div class="ft-links">
+    <a href="https://github.com/shrutiborkar13" target="_blank" class="ft-lnk">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+    </a>
+    <a href="https://linkedin.com/in/shrutiborkar13" target="_blank" class="ft-lnk">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="mailto:shrutiborkar13@gmail.com" class="ft-lnk">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </a>
+    <a href="https://medium.com/@shrutiborkar13" target="_blank" class="ft-lnk" style="font-family:'Syne',sans-serif;font-weight:700;font-size:.75rem">M</a>
+    <a href="resume.pdf" target="_blank" class="ft-lnk">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    </a>
+  </div>
+</footer>
+
+<script>
+// ── Cursor ──
+const cg=document.getElementById('cg');
+document.addEventListener('mousemove',e=>{cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px';});
+
+// ── Reveal ──
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ── Menu ──
+function tmenu(){document.getElementById('mm').classList.toggle('open');}
+
+// ── Card glow + click ──
+document.querySelectorAll('.pj-card').forEach(c=>{
+  c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect();
+    c.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+    c.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+  });
+  c.addEventListener('click',e=>{
+    if(e.target.closest('.pj-link'))return;
+    const idx=parseInt(c.getAttribute('data-idx'));
+    openModal(idx);
+  });
+});
+
+// ── Nav active ──
+const secs=document.querySelectorAll('section[id]'),nls=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  secs.forEach(s=>{if(window.scrollY>=s.offsetTop-120)cur=s.id;});
+  nls.forEach(a=>{a.style.color='';if(a.getAttribute('href')==='#'+cur)a.style.color='var(--accent)';});
+});
+
+// ── Smooth scroll ──
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'});});
+});
+
+// ══════════════ PROJECT DATA ══════════════
+const PROJECTS=[
+
+  // 0 — Netflix Agentic AI
+  {
+    icon:'🎬',title:'Netflix Genre Intelligence & Agentic AI Pipeline',
+    badge:'ai',badgeLabel:'Agentic AI',
+    subtitle:'End-to-end Databricks pipeline — K-Means gap analysis, GPT-4 LangChain recommendations, Streamlit Q&A chatbot, and Power BI DAX dashboard for 140+ countries',
+    ghLink:'https://github.com/shrutiborkar13',
+    stats:[{num:'140+',lbl:'Countries'},{num:'7K+',lbl:'Titles'},{num:'GPT-4',lbl:'LLM Backend'},{num:'5',lbl:'Pipeline Phases'}],
+    overview:'Netflix operates across 190+ countries but content investment is skewed toward dominant markets. This project identifies content gaps by comparing each country genre availability with global averages and delivers LLM-powered recommendations to improve regional personalization.\n\nThe pipeline was prototyped on Databricks to scale preprocessing and GPT-based recommendation tasks across 140+ country datasets, with a LangChain-powered Streamlit Q&A interface for non-technical stakeholders.',
+    phases:[
+      {num:'PHASE 01',title:'Data Engineering',desc:'Cleaned 7K+ Netflix titles using Python and SQL on Databricks. Normalized multi-country and multi-genre rows, standardized durations (movies to minutes, shows to seasons), and engineered gap metrics.'},
+      {num:'PHASE 02',title:'Gap Analysis',desc:'Applied K-Means clustering to group countries by genre gap patterns. Computed gap = country_share minus global_share per genre. India showed deficit in Documentaries and Reality TV.'},
+      {num:'PHASE 03',title:'LLM + LangChain',desc:'Used GPT-4 via OpenAI API wrapped in a LangChain chain to generate country-level content recommendations. Designed prompts summarizing top genre gaps per country cluster.'},
+      {num:'PHASE 04',title:'Agentic Chatbot',desc:'Built a Streamlit Q&A chatbot using fuzzywuzzy for fuzzy country matching and LangChain for chaining context. Stakeholders can query any country or region for genre gap insights in plain English.'},
+      {num:'PHASE 05',title:'Power BI Dashboard',desc:'Delivered Power BI dashboard with DAX KPIs, genre gap treemap by cluster, genre gap matrix (country x genre), and top 10 countries by content gap. Dropdown slicers for Country and Cluster.'},
+    ],
+    outcomes:[
+      {text:'<strong>Prototyped on Databricks</strong> to scale GPT-based recommendation tasks across 140+ country datasets'},
+      {text:'<strong>LangChain + GPT-4</strong> generates country-level content investment recommendations automatically'},
+      {text:'<strong>Agentic Streamlit chatbot</strong> enables plain-English Q&A for non-technical stakeholders and executives'},
+      {text:'<strong>K-Means clustering</strong> grouped countries into actionable market segments for targeted investment'},
+      {text:'<strong>Power BI dashboard</strong> with genre gap treemap, country matrix, and cluster-level slicer filters'},
+    ],
+    tools:['Databricks','Apache Spark','LangChain','OpenAI API (GPT-4)','Python','Pandas','SQL','K-Means','Power BI','DAX','Streamlit','fuzzywuzzy']
+  },
+
+  // 1 — Human Behaviour
+  {
+    icon:'🧠',title:'Human Behaviour Classification via ML',
+    badge:null,badgeLabel:null,
+    subtitle:'Multi-label activity classification on ExtraSensory dataset — 94% accuracy with Random Forest, 17% F1 uplift over Logistic Regression baseline',
+    ghLink:'https://github.com/shrutiborkar13',
+    stats:[{num:'60',lbl:'Users'},{num:'300K+',lbl:'Samples'},{num:'94%',lbl:'RF Accuracy'},{num:'+17%',lbl:'F1 over LR'}],
+    overview:'Human behavior in natural settings is highly diverse — people remove phones from pockets, exit monitored areas, or enter elevators. Behavioral models must capture complex sensor-to-context mappings without overfitting.\n\nThis project analyzes the ExtraSensory dataset (60 users, 300K+ samples, sampled every minute) to build a multi-label activity classification pipeline using sensor data. A Random Forest classifier identified the top 3 sensor feature groups per label, achieving 94% accuracy and outperforming the Logistic Regression baseline by 17% F1-score.',
+    phases:[
+      {num:'STEP 01',title:'Data Preparation',desc:'Combined 60 individual user CSV files. Dataset has 225 sensor features in 11 groups: accelerometer, gyroscope, magnetometer, watch accelerometer, location, audio, phone state, and more. 5 activity categories: Posture, Location, Activity, Phone_Usage, Socializing.'},
+      {num:'STEP 02',title:'Statistical QA',desc:'Validated feature relevance using t-test, Chi-square, ANOVA, and correlation analysis. Established a reusable statistical QA framework for sensor ML pipelines that can be applied to future datasets.'},
+      {num:'STEP 03',title:'Feature Selection via RF',desc:'Used Random Forest Regressor to calculate feature importance for each of 51 activity labels. Selected top-3 sensor feature groups per label. FIX_walking: {Gyro, Acc, Magnet}; LYING_DOWN: {PS, Audio, AP}; BICYCLING: {Magnet, Loc, Acc}.'},
+      {num:'STEP 04',title:'Classification Results',desc:'94% accuracy on multi-label classification. Random Forest outperformed Logistic Regression by 17% F1-score. Future scope includes mood prediction and real-time intervention systems based on activity context.'},
+    ],
+    outcomes:[
+      {text:'<strong>94% accuracy</strong> on multi-label classification across 51 activity labels and 300K+ sensor samples'},
+      {text:'<strong>+17% F1-score</strong> over Logistic Regression baseline — validated on held-out test set'},
+      {text:'<strong>Reusable statistical QA framework</strong> (t-test, Chi-square, ANOVA, correlation) for sensor ML pipelines'},
+      {text:'<strong>Top-3 sensor groups identified</strong> for all 51 activity labels from 225 raw features via RF importance'},
+    ],
+    tools:['Python','scikit-learn','Random Forest','Pandas','NumPy','t-test','Chi-square','ANOVA','ExtraSensory Dataset','Matplotlib']
+  },
+
+  // 2 — Adidas
+  {
+    icon:'👟',title:'Adidas Sales Data Analysis',
+    badge:null,badgeLabel:null,
+    subtitle:'Advanced statistical modeling for pricing strategy, channel optimization and supply chain cost reduction on 9.6K transactions',
+    ghLink:'https://github.com/shrutiborkar13',
+    stats:[{num:'9.6K',lbl:'Transactions'},{num:'-1.8',lbl:'Price Elasticity'},{num:'$180M',lbl:'COGS Opportunity'},{num:'99%',lbl:'Forecast Accuracy'}],
+    overview:'This end-to-end analytics project delivers a data-driven optimization strategy for Adidas sales operations by applying advanced statistical modeling and BI dashboarding to ~9.6K transactional records.\n\nThe project answers six business questions spanning price sensitivity, COGS and profit margins, product lifecycle phases, COVID-19 time-series impact, retailer performance factors, and regional sales method effectiveness.',
+    phases:[
+      {num:'PHASE 01',title:'Data Engineering',desc:'Parsed 14-column dataset with Pandas and SQL. Imputed missing values with median strategy. Engineered Price Sensitivity, COGS, Margin Ratio, and Lifecycle Phase tagging. Joined external logistics cost data via SQL for geo-spatial analysis.'},
+      {num:'PHASE 02',title:'Price Elasticity',desc:'Log-log regression: log(Units) = b0 + b1*log(Price) + b2*Region + b3*Channel. Street Footwear showed b1 approx -1.8 — highly elastic. K-Fold cross-validation for model stability assessment.'},
+      {num:'PHASE 03',title:'Lifecycle Analysis',desc:'Monthly and quarterly aggregation with seasonal decomposition. Threshold-based tagging: Introduction under 15K/mo, Growth over 50% QoQ, Maturity at +/-5%, Decline at 30%+ YoY drop. Men Street Footwear flagged as Decline phase.'},
+      {num:'PHASE 04',title:'Geo-Spatial COGS',desc:'K-Means on avg Units Sold, Operating Margin, COGS per Unit, and Price Sensitivity. Regional heatmaps revealing Western region with approx 30% higher COGS — $180M reduction opportunity via regional distribution center.'},
+    ],
+    outcomes:[
+      {text:'<strong>Street Footwear elasticity b1 approx -1.8</strong> — recommended penetration pricing strategy to boost volume'},
+      {text:'<strong>Southeast region</strong> underperforms in-store (25% vs 45% national avg) — suggests physical expansion opportunity'},
+      {text:'<strong>Western region COGS ~30% above median</strong> — $180M reduction opportunity via regional distribution center'},
+      {text:'<strong>COVID-19 impact</strong> clearly mapped in time-series with 2020 dip and Q2 2021 recovery visible'},
+    ],
+    tools:['Python','Pandas','SQL (PostgreSQL)','Tableau','scikit-learn','K-Means','Log-log Regression','Seasonal Decomposition','Excel']
+  },
+
+  // 3 — Amazon Air
+  {
+    icon:'🚁',title:'Amazon Air Drone Deployment — Massachusetts',
+    badge:null,badgeLabel:null,
+    subtitle:'Data-driven phased deployment strategy for Amazon Prime Air drone hub placement — 56 hubs, 5.1M residents, 4 phases',
+    ghLink:'https://github.com/shrutiborkar13',
+    stats:[{num:'56',lbl:'Drone Hubs'},{num:'14',lbl:'Counties'},{num:'5.1M',lbl:'Residents'},{num:'4',lbl:'Phases'}],
+    overview:'Amazon Prime Air aims to deliver packages under 5 pounds in under 30 minutes. The challenge was determining optimal drone hub placement across Massachusetts to maximize resident reach while respecting FAA airspace regulations and maintaining cost-effective phased rollout.\n\nThis project used geographic, demographic, and regulatory data combined into a scalable deployment model with Power BI reporting for executive presentation.',
+    phases:[
+      {num:'PHASE 01',title:'Research',desc:'Studied Prime Air drone specs (speed, range, payload). Gathered MA population data from U.S. Census QuickFacts and county datasets. Reviewed FAA no-fly zones and airspace restrictions across all 14 counties.'},
+      {num:'PHASE 02',title:'GIS Analysis',desc:'Python (Folium, Geopy) to geocode all town centers, calculate delivery radii, create interactive maps, visualize phase rollout. GIS layers: FAA airspace classes, airport buffers, coastal and wildlife no-fly zones.'},
+      {num:'PHASE 03',title:'Deployment Model',desc:'4-phase plan: Rural low-risk zones (Phase 1), Suburban expansion (Phase 2), Mid-size cities (Phase 3), Dense urban with FAA restrictions (Phase 4). Overlap-adjusted population estimates with 30-70% cross-phase deduplication.'},
+      {num:'PHASE 04',title:'BI Reporting',desc:'Power BI dashboard with hub count per phase, population coverage vs cost over time, and Gantt chart for deployment timeline. Excel cost breakdown per hub with phase-level population and area summaries.'},
+    ],
+    outcomes:[
+      {text:'<strong>56 drone hubs mapped</strong> across 14 Massachusetts counties with full GIS and FAA compliance'},
+      {text:'<strong>~5.1M residents reachable</strong> with overlap-deduplication logic across 4 deployment phases'},
+      {text:'<strong>Phase 1 pilot zones</strong> in rural low-risk areas designed to test operational viability before scaling'},
+      {text:'<strong>Power BI Gantt + cost breakdown</strong> ready for executive presentation and investor planning'},
+    ],
+    tools:['Python','Folium','Geopy','SQL','Power BI','MS Excel','GIS','U.S. Census Data','FAA Airspace Data']
+  },
+
+  // 4 — Skin Lesions
+  {
+    icon:'🔬',title:'Skin Lesion Classification — IJCA Published',
+    badge:'pub',badgeLabel:'Published',
+    subtitle:'ML + Deep Learning for skin cancer classification — ResNet18 at 85%, published in IJCA Vol. 185 No. 3 April 2023',
+    ghLink:'https://www.ijcaonline.org/archives/volume185/number3/32682-2023922679/',
+    stats:[{num:'85%',lbl:'ResNet18 Acc.'},{num:'10,015',lbl:'Images'},{num:'7',lbl:'Cancer Types'},{num:'IJCA',lbl:'Published'}],
+    overview:'Skin cancer is one of the most prevalent global health concerns. Early detection is critical for reducing mortality rates. This project — published in the International Journal of Computer Applications (Vol. 185, No. 3, April 2023) — applies ML and deep learning for skin lesion classification using the HAMS10000 dataset.\n\nResNet18 achieved 85% accuracy, outperforming MobileNet (83.1%) and Modified MobileNet (83.93%). Grad-CAM visualization provides clinical interpretability for the model decisions.',
+    phases:[
+      {num:'STEP 01',title:'Preprocessing',desc:'HAMS10000: 10,015 dermoscopic images across 7 classes. Applied CLAHE for uniform illumination, morphological closing and median filters for noise. Sobel filters plus Watershed plus connected component labeling for lesion segmentation.'},
+      {num:'STEP 02',title:'Feature Engineering',desc:'Extracted shape and symmetry features (asymmetry index, compact index), color features (StdR, StdG, StdB), and GLCM texture features (homogeneity, energy, contrast) from segmented lesion regions.'},
+      {num:'STEP 03',title:'ML Baseline',desc:'Benchmarked KNN, Logistic Regression, Decision Tree, Random Forest (69.9%), and Gradient Boost. All ML models underperformed deep learning due to limited feature representation capacity.'},
+      {num:'STEP 04',title:'ResNet18 + Grad-CAM',desc:'ResNet18 trained with data augmentation (flips, rotations). Grad-CAM highlighted critical lesion regions for clinical interpretability. Final accuracy: 85%, outperforming MobileNet and Modified MobileNet.'},
+    ],
+    outcomes:[
+      {text:'<strong>Published in IJCA</strong> — Vol. 185, No. 3, April 2023 (peer-reviewed, DOI verified)'},
+      {text:'<strong>ResNet18 at 85% accuracy</strong> — outperforms MobileNet (83.1%) and Modified MobileNet (83.93%)'},
+      {text:'<strong>Grad-CAM visualization</strong> highlights critical lesion regions, making the model clinically interpretable'},
+      {text:'<strong>Future work:</strong> mobile diagnostic tool for real-time low-cost skin cancer detection in clinical settings'},
+    ],
+    tools:['Python','PyTorch','ResNet18','CLAHE','Sobel Filters','Watershed','GLCM','Grad-CAM','scikit-learn','Random Forest']
+  },
+
+  // 5 — Alzheimer
+  {
+    icon:'🫀',title:'Brain Alzheimer Detection (CNN)',
+    badge:null,badgeLabel:null,
+    subtitle:'Custom CNN classifying 4 Alzheimer stages from MRI scans — 93.7% accuracy, state-of-the-art on OASIS dataset',
+    ghLink:'https://github.com/shrutiborkar13',
+    stats:[{num:'93.7%',lbl:'Accuracy'},{num:'5,121',lbl:'MRI Images'},{num:'4',lbl:'Stages'},{num:'SMOTE',lbl:'Class Balancing'}],
+    overview:'This project applies a custom CNN to classify MRI images into four Alzheimer stages: Non-Demented, Very Mild Demented, Mild Demented, and Moderate Demented. Using SMOTE class-balancing and extensive data augmentation, the model achieved 93.7% accuracy — outperforming DBN (91%), Multi-Kernel Learning (93.5%), and other existing approaches on the OASIS dataset.',
+    phases:[
+      {num:'STEP 01',title:'OASIS Dataset',desc:'5,121 MRI brain images at 176x176 px from Siemens 1.5T scanner. Classes: Non-Demented (3,210), Very Mild (2,240), Mild (896), Moderate (64). SMOTE addressed severe class imbalance, expanding dataset to 10,240 balanced images.'},
+      {num:'STEP 02',title:'Data Augmentation',desc:'Keras ImageDataGenerator: zoom [0.99, 1.01], horizontal flips, brightness adjustments, constant fill mode. SMOTE generated synthetic samples for underrepresented Moderate class (64 to 2,230 samples).'},
+      {num:'STEP 03',title:'CNN Architecture',desc:'Conv2D (16 filters) to MaxPooling to Conv2D + SeparableConv2D layers (32, 64, 128, 256 filters) to Batch Normalization to Dropout to Dense (512, 128, 64, ReLU) to Softmax output for 4 classes.'},
+      {num:'STEP 04',title:'Results',desc:'93.7% accuracy trained over 50 epochs. Best vs Multi-task LR (87.5%), 3D CNN (89.7%), Sparse Rep (86%), DBN (91%), Multi-Kernel (93.5%). Separable convolutions reduced parameters without sacrificing accuracy.'},
+    ],
+    outcomes:[
+      {text:'<strong>93.7% accuracy</strong> across 4 Alzheimer stages — state-of-the-art performance on OASIS dataset'},
+      {text:'<strong>SMOTE</strong> resolved severe class imbalance (Moderate class: 64 to 2,230 synthetic samples)'},
+      {text:'<strong>Separable convolutions</strong> reduced trainable parameters without sacrificing classification accuracy'},
+      {text:'<strong>Outperforms</strong> DBN (91%), 3D CNN (89.7%), Multi-task Learning (87.5%), and Sparse Rep. (86%)'},
+    ],
+    tools:['Python','TensorFlow','Keras','CNN','SeparableConv2D','SMOTE','BatchNorm','Dropout','OASIS Dataset','ImageDataGenerator']
+  },
+
+  // 6 — Employee Power BI
+  {
+    icon:'📊',title:'Employee Analysis — Power BI Dashboard',
+    badge:null,badgeLabel:null,
+    subtitle:'Interactive HR analytics dashboard with advanced DAX measures for DEI monitoring and workforce strategy',
+    ghLink:'https://github.com/shrutiborkar13',
+    stats:[{num:'DAX',lbl:'Advanced Measures'},{num:'6+',lbl:'Visual Types'},{num:'DEI',lbl:'Focus'},{num:'Live',lbl:'Slicers'}],
+    overview:'A comprehensive interactive Power BI dashboard analyzing workforce demographics and compensation data. The project demonstrates advanced DAX calculations, data modeling, and visual design to deliver actionable HR insights for executive decision-making including DEI monitoring, pay equity analysis, and workforce planning.',
+    phases:[
+      {num:'STEP 01',title:'Data Modeling',desc:'Dataset: Employee Name, Job Title, Department, Business Unit, Gender, Ethnicity, Age, Hire Date, Annual Salary, Bonus %, Country, City. Established data model relationships and Power Query transformations in Power BI.'},
+      {num:'STEP 02',title:'Advanced DAX',desc:'Age via DATEDIFF. Age Banding via SWITCH() for 20-29, 30-39, etc. Bonus Expense = SUMX(Salary x Bonus%). Total Compensation = Salary + Bonus. Average Salary overall and segmented.'},
+      {num:'STEP 03',title:'Visualizations',desc:'Bar chart (by Business Unit), Donut chart (Department share), Stacked column (Age bands), Donut chart (Ethnicity for DEI), Area chart (Salary by Job Title + Gender for pay equity), Slicers (Gender + Age Band).'},
+      {num:'STEP 04',title:'KPI Cards',desc:'Total Employees, Average Salary, Total Compensation, Average Age. Dashboard enables DEI monitoring, pay equity analysis, and strategic HR planning. Stakeholders explore via interactive slicers.'},
+    ],
+    outcomes:[
+      {text:'<strong>Advanced DAX measures</strong> — SWITCH() age banding, SUMX() bonus expense, pay equity analysis'},
+      {text:'<strong>DEI dashboard</strong> enables diversity monitoring across ethnicity, gender, and age simultaneously'},
+      {text:'<strong>Pay equity area chart</strong> makes compensation gaps immediately visible to leadership'},
+      {text:'<strong>Interactive slicers</strong> (Gender + Age Band) for self-serve HR and executive exploration'},
+    ],
+    tools:['Power BI','DAX','SWITCH()','SUMX()','DATEDIFF()','SQL','Power Query','HR Analytics','Data Modeling']
+  },
+
+  // 7 — Warehouse
+  {
+    icon:'📦',title:'Warehouse Object Detection & Classification',
+    badge:null,badgeLabel:null,
+    subtitle:'YOLOv8 + Siamese Network for automated inventory management — 97.26% mAP, 95% classification on SKU110K',
+    ghLink:'https://github.com/shrutiborkar13',
+    stats:[{num:'97.26%',lbl:'YOLOv8 mAP'},{num:'95%',lbl:'Siamese Acc.'},{num:'93%',lbl:'Emptiness Det.'},{num:'1.7M+',lbl:'Annotations'}],
+    overview:'Automated inventory management system using a multi-model computer vision pipeline on the SKU110K dataset (11,762 images, 1.7M+ annotated bounding boxes from densely packed supermarket shelves). YOLOv8 handles compartment extraction and product detection (97.26% mAP), while a Siamese Network classifies individual SKUs (95% accuracy).',
+    phases:[
+      {num:'MODEL 01',title:'Compartment Extraction',desc:'YOLOv8 trained to detect and extract shelf compartments from supermarket shelf images with exceptional accuracy. Handles the -15 to 15 degree orientation range typical in SKU110K.'},
+      {num:'MODEL 02',title:'Emptiness Detection',desc:'93% accuracy in determining whether each compartment is empty or occupied. Enables real-time restocking alerts. Trained on 11,762 images from thousands of stores at various scales and lighting conditions.'},
+      {num:'MODEL 03',title:'Product Detection',desc:'Same YOLOv8 architecture achieves 97.26% mAP for product object detection trained over 99 epochs on SKU110K. Handles densely packed scenarios where products are tightly arranged and overlapping.'},
+      {num:'MODEL 04',title:'Siamese Classification',desc:'Twin subnetworks with shared weights process image pairs. If representations are similar, products are classified as the same SKU. Achieves 95% classification accuracy on real-world product images.'},
+    ],
+    outcomes:[
+      {text:'<strong>97.26% mAP</strong> on SKU110K — validated on real-world supermarket shelf images across stores'},
+      {text:'<strong>93% emptiness detection</strong> enables real-time restocking alerts for retail operations teams'},
+      {text:'<strong>95% SKU classification</strong> via Siamese Network on visually similar densely-packed products'},
+      {text:'<strong>Trained 99 epochs</strong> on 11,762 images with 1.7M+ annotations — production-grade robustness'},
+    ],
+    tools:['Python','YOLOv8','Siamese Network','SKU110K Dataset','SQL','Power BI','OpenCV','PyTorch','Streamlit']
+  },
+
+];
+
+// ── Modal ──────────────────────────────────────
+function openModal(idx){
+  const p=PROJECTS[idx];
+  const ov=document.getElementById('modalOverlay');
+  const hd=document.getElementById('modalHeader');
+  const bd=document.getElementById('modalBody');
+
+  hd.innerHTML=`
+    <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    <div class="modal-meta">
+      <span class="modal-icon">${p.icon}</span>
+      ${p.badge?`<span class="modal-badge ${p.badge}">${p.badgeLabel}</span>`:''}
+    </div>
+    <div class="modal-title">${p.title}</div>
+    <div class="modal-subtitle">${p.subtitle}</div>
+    <div class="modal-links-row">
+      <a class="modal-ext-link" href="${p.ghLink}" target="_blank">↗ GitHub</a>
+      ${p.badge==='pub'?`<a class="modal-ext-link" href="${p.ghLink}" target="_blank" style="color:var(--accent4);border-color:rgba(249,124,110,.3)">📄 Read Paper</a>`:''}
+    </div>`;
+
+  bd.innerHTML=
+    `<div class="modal-stats">${p.stats.map(s=>`<div class="modal-stat"><div class="modal-stat-num">${s.num}</div><div class="modal-stat-lbl">${s.lbl}</div></div>`).join('')}</div>`+
+    `<div class="modal-section"><div class="modal-section-title">Overview</div>${p.overview.split('\n\n').map(t=>`<p>${t}</p>`).join('')}</div>`+
+    `<div class="modal-section"><div class="modal-section-title">Methodology</div><div class="modal-phases">${p.phases.map(ph=>`<div class="modal-phase"><div class="modal-phase-num">${ph.num}</div><div class="modal-phase-title">${ph.title}</div><div class="modal-phase-desc">${ph.desc}</div></div>`).join('')}</div></div>`+
+    `<div class="modal-section"><div class="modal-section-title">Key Outcomes</div><div class="modal-outcomes">${p.outcomes.map(o=>`<div class="modal-outcome"><div class="modal-outcome-dot"></div><div class="modal-outcome-text">${o.text}</div></div>`).join('')}</div></div>`+
+    `<div class="modal-section"><div class="modal-section-title">Tools & Technologies</div><div class="modal-tools">${p.tools.map(t=>`<span class="modal-tool">${t}</span>`).join('')}</div></div>`;
+
+  ov.classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('modalBox').scrollTop=0;
+}
+function closeModalBtn(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
+function closeModal(e){if(e.target===document.getElementById('modalOverlay'))closeModalBtn();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModalBtn();});
+</script>
+</body>
+</html>
