@@ -505,6 +505,14 @@
       <div class="click-hint">↗ Click to explore full case study</div>
     </div>
 
+    <div class="pj-card reveal rd2" data-idx="8">
+      <div class="pj-top"><div class="pj-icon">🏥</div><div class="pj-links"><a href="https://github.com/shrutiborkar13" target="_blank" class="pj-link" onclick="event.stopPropagation()">↗</a></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.55rem"><div class="pj-nm">Medical Supply Chain Analytics</div><span class="feat-badge">End-to-End</span></div>
+      <p class="pj-desc">End-to-end pipeline on 100K+ records — AWS S3 (Parquet), dbt Core (6 staging/mart models, 20 data quality tests), PostgreSQL, and Prefect orchestration. Flagged 3,483 critical shipment delays and a 3.6× fraud-rate disparity across payment methods.</p>
+      <div class="pj-stack"><span class="pj-tag">Python</span><span class="pj-tag">AWS S3</span><span class="pj-tag">dbt Core</span><span class="pj-tag">PostgreSQL</span><span class="pj-tag">Prefect</span><span class="pj-tag">Streamlit</span></div>
+      <div class="click-hint">↗ Click to explore full case study</div>
+    </div>
+
   </div>
 </section>
 
@@ -524,7 +532,7 @@
     <div class="sk-cat reveal rd1">
       <div class="sk-ct">Data Platform</div>
       <div class="sk-pills">
-        <span class="sk-pill">Databricks</span><span class="sk-pill">Apache Spark</span><span class="sk-pill">Apache Airflow</span><span class="sk-pill">Delta Lake</span><span class="sk-pill">ETL Pipelines</span><span class="sk-pill">Snowflake</span><span class="sk-pill">Data Warehousing</span>
+        <span class="sk-pill">Databricks</span><span class="sk-pill">Apache Spark</span><span class="sk-pill">Apache Airflow</span><span class="sk-pill">Delta Lake</span><span class="sk-pill">ETL Pipelines</span><span class="sk-pill">Snowflake</span><span class="sk-pill">Data Warehousing</span><span class="sk-pill">dbt Core</span><span class="sk-pill">Prefect</span>
       </div>
     </div>
 
@@ -955,6 +963,31 @@ const PROJECTS=[
     ],
     tools:['Python','YOLOv8','Siamese Network','SKU110K Dataset','SQL','Power BI','OpenCV','PyTorch','Streamlit']
   },
+
+  // 8 — Medical Supply Chain
+  {
+    icon:'🏥',title:'Medical Supply Chain Analytics Platform',
+    badge:'feat',badgeLabel:'End-to-End',
+    subtitle:'Production data pipeline on 100K+ records — AWS S3, dbt Core, PostgreSQL, Prefect orchestration with operational risk analytics and fraud detection',
+    ghLink:'https://github.com/shrutiborkar13',
+    stats:[{num:'100K+',lbl:'Records'},{num:'20',lbl:'dbt Tests'},{num:'3,483',lbl:'Delays Flagged'},{num:'3.6×',lbl:'Fraud Disparity'}],
+    overview:'A full-stack analytics pipeline designed to surface operational risk in medical e-commerce and logistics data. The platform processes 100K+ orders end-to-end — from raw CSV ingestion to a Streamlit analytics dashboard — with dbt Core handling transformation, testing, and documentation.\n\nThe pipeline replaced a multi-file Airflow DAG with a single Prefect Python flow, cutting orchestration overhead while maintaining production-grade reliability. Key findings: 3,483 critical shipment delays flagged and a 3.6× fraud-rate disparity identified between Mastercard and American Express via dbt-modeled fraud signals mart.',
+    phases:[
+      {num:'PHASE 01',title:'Ingestion & Storage',desc:'Ingested multi-source CSV data (e-commerce, logistics, fraud) into AWS S3 as Parquet files. Designed partitioned S3 structure for cost-efficient downstream reads by dbt and PostgreSQL.'},
+      {num:'PHASE 02',title:'dbt Transformation',desc:'Built 6 staging and mart models in dbt Core transforming raw S3 data into analytics-ready tables in PostgreSQL (Neon). Enforced 20 data quality tests — not-null, unique, accepted-value, relationship — with 100% pass rate.'},
+      {num:'PHASE 03',title:'Operational Risk Layer',desc:'Designed analytics mart surfacing risk across 103K+ orders. Flagged 3,483 critical shipment delays via dbt-modeled delay signals. Identified 3.6× fraud-rate disparity between Mastercard and American Express.'},
+      {num:'PHASE 04',title:'Orchestration',desc:'Orchestrated three-stage ETL workflow (S3 → PostgreSQL → dbt) using Prefect on Windows — replacing Airflow to eliminate WSL/Docker overhead, reducing orchestration to a single Python flow.'},
+      {num:'PHASE 05',title:'Streamlit Dashboard',desc:'Built Streamlit frontend exposing operational risk metrics — shipment delay heatmaps, fraud disparity charts, and order-level drill-down. Connected to the dbt-transformed PostgreSQL layer.'},
+    ],
+    outcomes:[
+      {text:'<strong>100% dbt test pass rate</strong> across 20 data quality checks — not-null, unique, accepted-value, relationships'},
+      {text:'<strong>3,483 critical shipment delays</strong> flagged via dbt fraud signals mart across 103K+ orders'},
+      {text:'<strong>3.6× fraud-rate disparity</strong> identified between Mastercard and American Express payment methods'},
+      {text:'<strong>Single Prefect Python flow</strong> replaced multi-file Airflow DAG — eliminated WSL/Docker orchestration overhead'},
+      {text:'<strong>Parquet-on-S3 architecture</strong> with partitioned storage for cost-efficient reads at scale'},
+    ],
+    tools:['Python','AWS S3','Parquet','dbt Core','PostgreSQL (Neon)','Prefect','Streamlit','pandas','SQL','Data Quality Testing']
+  }
 
 ];
 
